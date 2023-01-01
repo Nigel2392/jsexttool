@@ -1,0 +1,65 @@
+//go:build js && wasm
+// +build js,wasm
+
+package main
+
+import (
+	"os"
+
+	"github.com/Nigel2392/jsext/app"
+	"github.com/Nigel2392/jsext/components"
+	"github.com/Nigel2392/jsext/components/menus"
+	"github.com/Nigel2392/jsext/elements"
+)
+
+// When the routes are loaded, the prefix "router:"
+// is added to the URL, so that the router knows
+// that it is an internal route.
+var URLs = []components.URL{
+	{Name: "Home", Url: "/"},
+	{Name: "About", Url: "/about/"},
+	{Name: "Example", Url: "/example/"},
+	// For external URLs, the prefix "external:"
+	// is added to the URL.
+	// {Name: "Google", Url: "external:https://google.com"},
+}
+
+// Dynamically import CSS and JS files
+//var (
+//	BOOTSTRAP_CSS = jsext.ImportLink("bootstrapCSS", "/static/bootstrap.css", "text/css", "stylesheet")
+//	BOOTSTRAP_JS  = jsext.ImportScript("bootstrapJS", "/static/bootstrap.js", "text/javascript")
+//)
+// Can be removed with the following code:
+// 		BOOTSTRAP_CSS.Remove()
+// 		BOOTSTRAP_JS.Remove()
+
+// Get the default application element
+// This would be the ID of the element in the HTML file.
+var Application = app.App("#app")
+
+// Main webassembly entry point
+func main() {
+	// Set a menu.
+	var menuElem = menus.MenuCurtainDrop(URLs, 250, "#333333", "white")
+
+	// Set the navbar.
+	Application.SetNavbar(menuElem)
+
+	// Set a footer.
+	Application.SetFooter(elements.Div().AttrStyle(
+		"background-color: #333333", "color: white",
+		"text-align:center", "position: fixed",
+		"left: 0", "bottom: 0",
+		"width: 100%", "z-index: 9999",
+		"font-size: 16px", "font-family: monospace",
+	).Append(elements.Span("JSExt")))
+
+	// Set classes on the application element
+	// Application.SetClasses("container mt-4")
+	// Application.SetStyle("margin: 0 10%")
+
+	initURLs(Application)
+
+	// Start the application, exit when done.
+	os.Exit(Application.Run())
+}

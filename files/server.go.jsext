@@ -1,0 +1,59 @@
+//go:build !js && !wasm
+// +build !js,!wasm
+
+package main
+
+import (
+	"compress/gzip"
+	"embed"
+	"fmt"
+	"net/http"
+	"flag"
+)
+
+//go:embed static/*
+var wasm embed.FS
+
+//go:embed index.html
+var index []byte
+
+func main() {
+	var defaultAddr = flag.String("addr", ":8000", "port to listen on")
+
+	startHost(*defaultAddr)
+}
+
+func startHost(addr string) {
+	fmt.Println("Listening on http://127.0.0.1:8000")
+	// Handle static files
+	http.Handle("/static/", makeGzipHandler(
+		http.FileServer(
+			http.FS(wasm),
+		),
+	))
+	// Handle index on all routes (for SPA)
+	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) { w.Write(index) })
+	// Start server
+	http.ListenAndServe(addr, nil)
+
+}
+
+func makeGzipHandler(h http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Content-Encoding", "gzip")
+		// Create gzip writer
+		gz := gzip.NewWriter(w)
+		defer gz.Close()
+		// Create gzip response writer
+		gzw := gzipResponseWriter{ResponseWriter: w, Writer: gz}
+		h.ServeHTTP(gzw, r)
+	})
+}
+
+type gzipResponseWriter struct {
+	http.ResponseWriter
+	*gzip.Writer
+}
+
+func (w gzipResponseWriter) Write(b []byte) (int, error) { return w.Writer.Write(b) }
+func (w gzipResponseWriter) Header() http.Header         { return w.ResponseWriter.Header() }

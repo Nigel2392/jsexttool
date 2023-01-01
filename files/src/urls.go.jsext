@@ -1,0 +1,14 @@
+package main
+
+import (
+	"github.com/Nigel2392/jsext/app"
+)
+
+func initURLs(Application *app.Application) {
+	// Register routes, these routes are used by the router,
+	// only works for elements that have "router:" prefix in the href.
+	Application.Register("home", "/", Index)
+	Application.Register("about", "/about/", About)
+	Application.Register("example", "/example/", HelloWorld)
+
+}

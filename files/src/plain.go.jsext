@@ -1,0 +1,33 @@
+//go:build js && wasm
+// +build js,wasm
+
+package main
+
+import (
+	"net/url"
+	"os"
+
+	"github.com/Nigel2392/jsext/app"
+	"github.com/Nigel2392/jsext/components"
+	"github.com/Nigel2392/jsext/components/menus"
+	"github.com/Nigel2392/jsext/router"
+)
+
+var URLs = []components.URL{
+	{Name: "Home", Url: "/"},
+}
+
+var Application = app.App("") // Leave empty to append to body!
+
+func main() {
+	Application.SetNavbar(menus.MenuCurtainDrop(URLs, 250, "#333333", "white"))
+	Application.Register("index", "/", Index)
+
+	os.Exit(Application.Run())
+}
+
+func Index(a *app.Application, v router.Vars, u *url.URL) {
+	println("Index")
+
+	a.Render()
+}

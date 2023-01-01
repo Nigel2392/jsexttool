@@ -1,0 +1,106 @@
+package main
+
+import (
+	"net/url"
+
+	"github.com/Nigel2392/jsext"
+	"github.com/Nigel2392/jsext/app"
+	"github.com/Nigel2392/jsext/components/forms"
+	"github.com/Nigel2392/jsext/elements"
+	"github.com/Nigel2392/jsext/router"
+)
+
+func Index(a *app.Application, v router.Vars, u *url.URL) {
+	var defaultShadow = `text-shadow: -2px 4px 0 #000, 1px 1px 0 #000, 1px -1px 0 #000, -1px -1px 0 #000`
+	var shadowWhite = `text-shadow: -1px 1px 0 #fff, 1px 1px 0 #fff, 1px -1px 0 #fff, -1px -1px 0 #fff`
+
+	var div = elements.Div()
+	div.AttrStyle(
+		"height: 100vh",
+		"display: flex", "justify-content: center",
+		"align-items: center", "flex-direction: column",
+		"background: rgb(85,34,195)",
+		"background: linear-gradient(0deg, rgba(85,34,195,0.40940126050420167) 0%, rgba(153,45,253,1) 100%)",
+		"font-size: 1.5rem",
+	)
+	var innerDiv = div.Div().AttrStyle("transform: translateY(-79px);")
+	innerDiv.Append(
+		elements.H1().InnerHTML("Welcome to ").Append(
+			elements.Span("JS").AttrStyle("color: #F8FF30", "font-weight:bold", "font-size: 1.5em"),
+			elements.Span("Ext").AttrStyle("color: #3730FF", "font-weight:bold", "font-size: 1.2em"),
+		).AttrStyle("color: white", defaultShadow),
+		elements.H2().InnerHTML("A simple WebAssembly framework written in Go").AttrStyle("color: white", defaultShadow),
+		elements.H3().InnerHTML("Made with ❤️ by <a href=\"https://github.com/Nigel2392\" style=\"color:#3730FF;text-decoration:none;"+shadowWhite+";\">Github/Nigel2392</a>").AttrStyle("color: white", defaultShadow),
+	).AttrStyle("text-align: center")
+
+	// Render the element.
+	a.Render(div)
+
+	// Due to a pesky bug (which I cannot figure out), the animations can only be done after the element is rendered.
+	innerDiv.FadeIn(1500)
+}
+
+func About(a *app.Application, v router.Vars, u *url.URL) {
+	var div = elements.Div()
+	div.AttrStyle(
+		"height: 100vh",
+		"display: flex", "justify-content: center",
+		"background: rgb(85,34,195)",
+		"background: linear-gradient(0deg, rgba(85,34,195,0.40940126050420167) 0%, rgba(153,45,253,1) 100%)",
+		"font-size: 1.5rem",
+	)
+
+	var inner = elements.Div().AttrStyle("color:white", "padding:10%;").Append(
+		elements.H1().InnerHTML("About JSExt"),
+		elements.H2().InnerHTML("A simple webassembly framework, written in Go."),
+		elements.P(`JSExt is a framework for single page applications. It has an integrated HTTP-client and router for the page urls.
+			JSExt works around components, which can be highly customized.
+			We also include TinyGO support, an integrated message framework using eventListeners, and a lot more.
+		`).AttrStyle("white-space: pre-line"),
+	)
+
+	div.Append(inner)
+
+	a.Render(div)
+
+	// Due to a pesky bug (which I cannot figure out), the animations can only be done after the element is rendered.
+	inner.FadeIn(1500)
+}
+
+func HelloWorld(a *app.Application, v router.Vars, u *url.URL) {
+	var div = elements.Div()
+	div.AttrStyle(
+		"height: 100vh",
+		"display: flex", "justify-content: center",
+		"align-items: center", "flex-direction: column",
+		"background: rgb(85,34,195)",
+		"background: linear-gradient(0deg, rgba(85,34,195,0.40940126050420167) 0%, rgba(153,45,253,1) 100%)",
+		"font-size: 1.5rem",
+	)
+	var form = forms.NewForm("/", "POST")
+	form.Inner.AttrID("jsext_HelloW_form")
+	form.Inner.StyleBlock(`.jsext-example-label {color: white;font-size: 3rem;}
+	.jsext-example-input {color: black; border: 1px solid #333333; border-radius: 5px; padding: 5px;font-size: 2rem;}
+	.jsext-example-input:focus {outline: none; border: 1px solid #333333; border-radius: 5px; padding: 5px;}
+	.jsext-example-input:hover {border: 1px solid #333333; border-radius: 5px; padding: 5px;}
+	#jsext_HelloW_form {display: flex; flex-direction: column; justify-content: center; align-items: center; width: 100%; height: 100%;}
+	#jsext_HelloW_form button {background-color: #555555; color: white; border: none; border-radius: 5px; padding: 5px; margin-top: 10px; cursor: pointer;font-size: 2rem;}
+	#jsext_HelloW_form button:hover {background-color: #333333; color: white; border: none; border-radius: 5px; padding: 5px; margin-top: 10px; cursor: pointer;}`)
+	form.Inner.Label("Enter your name:", "entered_name").AttrClass("jsext-example-label")
+	form.Inner.Input("text", "entered_name", "Enter your name!").AttrClass("jsext-example-input")
+
+	form.OnSubmit(func(data map[string]string, elements []jsext.Element) {
+		jsext.QuerySelector(".jsext-example-label").InnerHTML("Hello " + data["entered_name"] + "!")
+	})
+	form.Element().Append(
+		// Submit button
+		elements.Button().InnerHTML("Submit").AttrType("submit"),
+	)
+	div.Append(form.Element())
+
+	// Render the element.
+	a.Render(div)
+
+	// Due to a pesky bug (which I cannot figure out), the animations can only be done after the element is rendered.
+	form.Element().FadeIn(1500)
+}
