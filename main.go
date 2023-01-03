@@ -50,7 +50,7 @@ func main() {
 	// Commandline flags
 	var initFlag = flag.Bool("init", false, "Initialize a project")
 	var plainFlag = flag.Bool("plain", false, "Create a plain project")
-	var projectName = flag.String("n", "", "Name of the project to build.")
+	var projectName = flag.String("n", "", "Name of the project to initialize.")
 	var vsCodeConfig = flag.Bool("vscode", false, "Create a vscode config file.")
 	flag.Parse()
 

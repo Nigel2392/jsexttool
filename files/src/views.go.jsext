@@ -25,11 +25,11 @@ func Index(a *app.Application, v router.Vars, u *url.URL) {
 	)
 	var innerDiv = div.Div().AttrStyle("transform: translateY(-79px);")
 	innerDiv.Append(
-		elements.H1().InnerHTML("Welcome to ").Append(
+		elements.H1("Welcome to ").Append(
 			elements.Span("JS").AttrStyle("color: #F8FF30", "font-weight:bold", "font-size: 1.5em"),
 			elements.Span("Ext").AttrStyle("color: #3730FF", "font-weight:bold", "font-size: 1.2em"),
 		).AttrStyle("color: white", defaultShadow),
-		elements.H2().InnerHTML("A simple WebAssembly framework written in Go").AttrStyle("color: white", defaultShadow),
+		elements.H2("A simple WebAssembly framework written in Go").AttrStyle("color: white", defaultShadow),
 		elements.H3().InnerHTML("Made with ❤️ by <a href=\"https://github.com/Nigel2392\" style=\"color:#3730FF;text-decoration:none;"+shadowWhite+";\">Github/Nigel2392</a>").AttrStyle("color: white", defaultShadow),
 	).AttrStyle("text-align: center")
 
@@ -51,8 +51,8 @@ func About(a *app.Application, v router.Vars, u *url.URL) {
 	)
 
 	var inner = elements.Div().AttrStyle("color:white", "padding:10%;").Append(
-		elements.H1().InnerHTML("About JSExt"),
-		elements.H2().InnerHTML("A simple webassembly framework, written in Go."),
+		elements.H1("About JSExt"),
+		elements.H2("A simple webassembly framework, written in Go."),
 		elements.P(`JSExt is a framework for single page applications. It has an integrated HTTP-client and router for the page urls.
 			JSExt works around components, which can be highly customized.
 			We also include TinyGO support, an integrated message framework using eventListeners, and a lot more.

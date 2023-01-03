@@ -34,7 +34,7 @@ var URLs = []components.URL{
 // 		BOOTSTRAP_JS.Remove()
 
 // Get the default application element
-// This would be the ID of the element in the HTML file.
+// This would be the querySelector of the element in the HTML file.
 var Application = app.App("#app")
 
 // Main webassembly entry point
