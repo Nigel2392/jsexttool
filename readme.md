@@ -16,6 +16,7 @@ Usage:
 
 ```
 $ jsext -init -n myproject -vscode
+$ jsext -plain -n myproject -vscode (Does not generate example application.)
 ```
 
 ## Installation
