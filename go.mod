@@ -1,4 +1,3 @@
-module github.com/Nigel2392/jsext/jsexttool
+module github.com/Nigel2392/jsexttool
 
 go 1.19
-

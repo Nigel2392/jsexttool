@@ -198,17 +198,6 @@ func ReadFileFolder(filename string) []byte {
 	return f
 }
 
-// Run a system command.
-func runCmd(name string, args ...string) {
-	var cmd = exec.Command(name, args...)
-	cmd.Stdout = os.Stdout
-	cmd.Stderr = os.Stderr
-	var err = cmd.Run()
-	if err != nil {
-		panic(err)
-	}
-}
-
 // Init default files and directories, such as go.mod, index.html, server.go and the source directory.
 func initDefault(projectName string) {
 	var err = os.Mkdir(projectName, 0755)
@@ -243,18 +232,24 @@ func initGoMod(projectName string) {
 		panic(err)
 	}
 	defer resp.Body.Close()
-	var tagList = Tags{}
-	err = json.NewDecoder(resp.Body).Decode(&tagList)
+	// Decode the tags from the github api
+	var tagList = DecodeTags(resp.Body)
+	// Get the latest version of jsext
+	var latestTag = tagList.Latest()
+
+	runCmd("go", "get", "github.com/Nigel2392/jsext@"+latestTag.Name)
+	runCmd("go", "mod", "tidy")
+}
+
+// Run a system command.
+func runCmd(name string, args ...string) {
+	var cmd = exec.Command(name, args...)
+	cmd.Stdout = os.Stdout
+	cmd.Stderr = os.Stderr
+	var err = cmd.Run()
 	if err != nil {
 		panic(err)
 	}
-	tagList.Descending()
-
-	// Get the latest version of jsext
-	var latestTag = tagList[0].Name
-
-	runCmd("go", "get", "github.com/Nigel2392/jsext@"+latestTag)
-	runCmd("go", "mod", "tidy")
 }
 
 // Create a directory if it does not exist.

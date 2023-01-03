@@ -46,52 +46,57 @@ ldContainer.appendChild(innerContainer);
 ldContainer.appendChild(style);
 
 document.addEventListener("DOMContentLoaded", function (event) {
-  // Add the loader to the DOM.
-  document.body.appendChild(ldContainer);
-  // Define default styles.
-  document.body.style.fontFamily = "sans-serif";
-  document.body.style.margin = "0";
-  document.body.style.padding = "0";
-  document.body.style.height = "100vh";
-  
-  // Fetch initialize a new instance of our WASM module.
-  async function FetchAndInstantiate(url, importObject) {
-    return fetch(url)
-      .then((response) => response.arrayBuffer())
-      .then((bytes) => WebAssembly.instantiate(bytes, importObject))
-      .then((results) => results.instance);
-  }
-  // Initialize a new Go instance.
-  let go = new Go();
-  // Fetch and instantiate the WASM module.
-  let mod = FetchAndInstantiate(wasmFile, go.importObject);
+    // Add the loader to the DOM.
+    document.body.appendChild(ldContainer);
+    // Define default styles.
+    document.body.style.fontFamily = "sans-serif";
+    document.body.style.margin = "0";
+    document.body.style.padding = "0";
+    document.body.style.height = "100vh";
 
-  // When the WASM module is ready, run the Go code.
-  // Then, predefine functions for sending and receiving messages,
-  // and dispatch an event to let the user know that JSExt is ready.
-  window.onload = function () {
-    mod.then(function (inst) {
-      instance = inst;
-      go.run(inst);
-      // if (ldContainer != null && ldContainer != undefined) {
-      // ldContainer.remove();
-      // }
+    // Fetch initialize a new instance of our WASM module.
+    async function FetchAndInstantiate(url, importObject) {
+      return fetch(url)
+        .then((response) => response.arrayBuffer())
+        .then((bytes) => WebAssembly.instantiate(bytes, importObject))
+        .then((results) => results.instance);
+    }
+    // Initialize a new Go instance.
+    let go = new Go();
+    // Fetch and instantiate the WASM module.
+    let mod = FetchAndInstantiate(wasmFile, go.importObject);
 
-      // Send a message through the messages system.
-      jsext.runtime.sendMessage = function(typ, message){
-        jsext.runtime.eventEmit("jsextMessages", typ, message);
-      };
-      // OnMessage takes a callback function that takes the message type
-      // and the message itself.
-      jsext.runtime.onMessage = function(callBack){
-        // Wrap the message function to take the message type,
-        // and the message itself.
-        var msgCallBack = function(event) {
-            callBack(event.args[0], event.args[1]);
-        };
-        jsext.runtime.eventOn("jsextMessages", msgCallBack);
-      };
-      window.jsextLoaded.dispatchEvent(new Event("jsextInit"));
-    });
-  };
+    // When the WASM module is ready, run the Go code.
+    // Then, predefine functions for sending and receiving messages,
+    // and dispatch an event to let the user know that JSExt is ready.
+    window.onload = function () {
+        mod.then(function (inst) {
+            instance = inst;
+            go.run(inst);
+
+            // Loader also gets removed inside the WASM module.
+            // if (ldContainer != null && ldContainer != undefined) {
+            // ldContainer.remove();
+            // }
+          
+            // Send a message through the messages system.
+            jsext.runtime.sendMessage = function(typ, message){
+              jsext.runtime.eventEmit("jsextMessages", typ, message);
+            };
+
+            // OnMessage takes a callback function that takes the message type
+            // and the message itself.
+            jsext.runtime.onMessage = function(callBack){
+              // Wrap the message function to take the message type,
+              // and the message itself.
+              var msgCallBack = function(event) {
+                  callBack(event.args[0], event.args[1]);
+              };
+              jsext.runtime.eventOn("jsextMessages", msgCallBack);
+            };
+
+            // Dispatch the event to let the user know that JSExt is ready.
+            window.jsextLoaded.dispatchEvent(new Event("jsextInit"));
+        });
+    };
 });

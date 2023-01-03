@@ -1,7 +1,9 @@
 package main
 
 import (
+	"encoding/json"
 	"errors"
+	"io"
 	"strconv"
 	"strings"
 )
@@ -15,6 +17,16 @@ type Tags []Tag
 
 func (t Tags) Len() int {
 	return len(t)
+}
+
+func DecodeTags(data io.Reader) Tags {
+	var tags = Tags{}
+	decoder := json.NewDecoder(data)
+	err := decoder.Decode(&tags)
+	if err != nil {
+		panic(err)
+	}
+	return tags
 }
 
 func (t Tags) initInts() {
@@ -53,4 +65,10 @@ func (t Tags) Ascending() {
 			}
 		}
 	}
+}
+
+func (t Tags) Latest() Tag {
+	t.initInts()
+	t.Descending()
+	return t[0]
 }
