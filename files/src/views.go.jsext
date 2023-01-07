@@ -4,9 +4,12 @@ import (
 	"net/url"
 
 	"github.com/Nigel2392/jsext"
+	"github.com/Nigel2392/jsext/canvas"
 	"github.com/Nigel2392/jsext/framework/app"
 	"github.com/Nigel2392/jsext/framework/components/forms"
 	"github.com/Nigel2392/jsext/framework/elements"
+	"github.com/Nigel2392/jsext/framework/graphs"
+	"github.com/Nigel2392/jsext/framework/graphs/options"
 	"github.com/Nigel2392/jsext/framework/router/vars"
 )
 
@@ -50,18 +53,36 @@ func About(a *app.Application, v vars.Vars, u *url.URL) {
 		"font-size: 1.5rem",
 	)
 
-	var inner = elements.Div().AttrStyle("color:white", "padding:10%;").Append(
+	var inner = elements.Div().AttrStyle("color:white", "padding:5%;").Append(
 		elements.H1("About JSExt"),
 		elements.H2("A simple webassembly framework, written in Go."),
 		elements.P(`JSExt is a framework for single page applications. It has an integrated HTTP-client and router for the page urls.
 			JSExt works around components, which can be highly customized.
-			We also include TinyGO support, an integrated message framework using eventListeners, and a lot more.
+			We also include TinyGO support, an integrated message framework using eventListeners, and a lot more, like the graph shown below!
 		`).AttrStyle("white-space: pre-line"),
 	)
 
 	div.Append(inner)
 
 	a.Render(div)
+
+	// Get javascript attributes after rendering.
+	width := inner.Value().Get("clientWidth").Int() / 2
+
+	var Canvas = inner.Canvas()
+	var opts = options.GraphOptions{
+		WidthPX:                width,
+		HeightPX:               400,
+		Labels:                 []string{"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"},
+		Values:                 []any{31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31},
+		Colors:                 []string{"green", "blue", "red", "yellow"},
+		GraphTitle:             "Graph Title",
+		Type:                   options.Line,
+		GraphBackgroundOpacity: 0.4,
+		GraphBorder:            true,
+		ShowResults:            true,
+	}
+	graphs.CreateGraph(canvas.Canvas(Canvas.JSValue()), opts)
 
 	// Due to a pesky bug (which I cannot figure out), the animations can only be done after the element is rendered.
 	inner.FadeIn(1500)
