@@ -6,10 +6,10 @@ package main
 import (
 	"os"
 
-	"github.com/Nigel2392/jsext/app"
-	"github.com/Nigel2392/jsext/components"
-	"github.com/Nigel2392/jsext/components/menus"
-	"github.com/Nigel2392/jsext/elements"
+	"github.com/Nigel2392/jsext/framework/app"
+	"github.com/Nigel2392/jsext/framework/components"
+	"github.com/Nigel2392/jsext/framework/components/menus"
+	"github.com/Nigel2392/jsext/framework/elements"
 )
 
 // When the routes are loaded, the prefix "router:"

@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/Nigel2392/jsext/app"
+	"github.com/Nigel2392/jsext/framework/app"
 )
 
 func initURLs(Application *app.Application) {
