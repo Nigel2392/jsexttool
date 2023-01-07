@@ -11,7 +11,22 @@
                 // Define what happens when messages are sent from the WASM module.
                 // Function needs to be set on the window object and take two arguments.
                 jsext.runtime.onMessage(function(typ, message) {
-                  console.log("Message of type " + typ + " received: " + message)
+                  switch (typ) {
+                    case "info":
+                        console.log(message)
+                        break;
+                    case "success":
+                        console.log(message)
+                        break;
+                    case "warning":
+                        console.log(message)
+                        break;
+                    case "error":
+                        console.log(message)
+                        break;
+                    default:
+                        console.log(message)
+                  }
                 });
             })
         </script>

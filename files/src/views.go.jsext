@@ -4,10 +4,10 @@ import (
 	"net/url"
 
 	"github.com/Nigel2392/jsext"
-	"github.com/Nigel2392/jsext/app"
-	"github.com/Nigel2392/jsext/components/forms"
-	"github.com/Nigel2392/jsext/elements"
-	"github.com/Nigel2392/jsext/router"
+	"github.com/Nigel2392/jsext/framework/app"
+	"github.com/Nigel2392/jsext/framework/components/forms"
+	"github.com/Nigel2392/jsext/framework/elements"
+	"github.com/Nigel2392/jsext/framework/router"
 )
 
 func Index(a *app.Application, v router.Vars, u *url.URL) {
