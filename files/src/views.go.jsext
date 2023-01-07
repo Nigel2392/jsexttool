@@ -7,10 +7,10 @@ import (
 	"github.com/Nigel2392/jsext/framework/app"
 	"github.com/Nigel2392/jsext/framework/components/forms"
 	"github.com/Nigel2392/jsext/framework/elements"
-	"github.com/Nigel2392/jsext/framework/router"
+	"github.com/Nigel2392/jsext/framework/router/vars"
 )
 
-func Index(a *app.Application, v router.Vars, u *url.URL) {
+func Index(a *app.Application, v vars.Vars, u *url.URL) {
 	var defaultShadow = `text-shadow: -2px 4px 0 #000, 1px 1px 0 #000, 1px -1px 0 #000, -1px -1px 0 #000`
 	var shadowWhite = `text-shadow: -1px 1px 0 #fff, 1px 1px 0 #fff, 1px -1px 0 #fff, -1px -1px 0 #fff`
 
@@ -40,7 +40,7 @@ func Index(a *app.Application, v router.Vars, u *url.URL) {
 	innerDiv.FadeIn(1500)
 }
 
-func About(a *app.Application, v router.Vars, u *url.URL) {
+func About(a *app.Application, v vars.Vars, u *url.URL) {
 	var div = elements.Div()
 	div.AttrStyle(
 		"height: 100vh",
@@ -67,7 +67,7 @@ func About(a *app.Application, v router.Vars, u *url.URL) {
 	inner.FadeIn(1500)
 }
 
-func HelloWorld(a *app.Application, v router.Vars, u *url.URL) {
+func HelloWorld(a *app.Application, v vars.Vars, u *url.URL) {
 	var div = elements.Div()
 	div.AttrStyle(
 		"height: 100vh",
