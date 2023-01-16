@@ -31,6 +31,7 @@ func Index(a *app.Application, v vars.Vars, u *url.URL) {
 		"font-size: 1.5rem",
 	)
 	var innerDiv = div.Div().AttrStyle("transform: translateY(-79px);")
+	// Options for the jiggly text.
 	var jiggleOptions = misc.JiggleOptions{
 		ChangeColor: "#9200ff",
 		ClassPrefix: "jsext",
