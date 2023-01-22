@@ -50,7 +50,7 @@ func Index(a *app.Application, v vars.Vars, u *url.URL) {
 	a.Render(div)
 
 	// Due to a pesky bug (which I cannot figure out), the animations can only be done after the element is rendered.
-	innerDiv.Animations.FadeIn(1500, true, true)
+	innerDiv.Animations.FadeIn(1500, elements.UseIntersectionObserver, true)
 }
 
 func About(a *app.Application, v vars.Vars, u *url.URL) {
@@ -94,7 +94,7 @@ func About(a *app.Application, v vars.Vars, u *url.URL) {
 	graphs.CreateGraph(canvas.Canvas(Canvas.JSValue()), opts)
 
 	// Due to a pesky bug (which I cannot figure out), the animations can only be done after the element is rendered.
-	inner.Animations.FadeIn(1500, true, true)
+	inner.Animations.FadeIn(1500, elements.UseIntersectionObserver, true)
 }
 
 func HelloWorld(a *app.Application, v vars.Vars, u *url.URL) {
@@ -136,5 +136,5 @@ func HelloWorld(a *app.Application, v vars.Vars, u *url.URL) {
 	a.Render(div)
 
 	// Due to a pesky bug (which I cannot figure out), the animations can only be done after the element is rendered.
-	form.Element().Animations.FadeIn(1500, true, true)
+	form.Element().Animations.FadeIn(1500, elements.UseIntersectionObserver, true)
 }

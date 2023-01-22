@@ -36,11 +36,18 @@ var URLs = []components.URL{
 // Get the default application element
 // This would be the querySelector of the element in the HTML file.
 var Application = app.App("#app")
+var Menu = menus.NewMenuOptions(menus.Left)
 
 // Main webassembly entry point
 func main() {
+	Menu.CSSMap[menus.ButtonWidth] = "300px"
+	Menu.URLs.FromElements(true,
+		elements.A("#home", "Home"),
+		elements.A("#about", "About"),
+		elements.A("#example", "Example"),
+	)
 	// Set a menu.
-	var menuElem = menus.MenuCurtainDrop(URLs, 250, "#333333", "white")
+	var menuElem = menus.Curtains(Menu)
 
 	// Set the navbar.
 	Application.SetNavbar(menuElem)
