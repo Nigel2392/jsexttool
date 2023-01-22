@@ -41,7 +41,7 @@ var Menu = menus.NewMenuOptions(menus.Left)
 // Main webassembly entry point
 func main() {
 	Menu.CSSMap[menus.ButtonWidth] = "300px"
-	Menu.URLs.FromElements(true,
+	Menu.URLs.FromElements(false,
 		elements.A("/", "Home"),
 		elements.A("/about", "About"),
 		elements.A("/example", "Example"),
