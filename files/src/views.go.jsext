@@ -7,14 +7,14 @@ import (
 	"net/url"
 
 	"github.com/Nigel2392/jsext"
+	"github.com/Nigel2392/jsext-framework/app"
+	"github.com/Nigel2392/jsext-framework/components/forms"
+	"github.com/Nigel2392/jsext-framework/components/misc"
+	"github.com/Nigel2392/jsext-framework/graphs"
+	"github.com/Nigel2392/jsext-framework/graphs/options"
+	"github.com/Nigel2392/jsext-framework/router/vars"
 	"github.com/Nigel2392/jsext/canvas"
-	"github.com/Nigel2392/jsext/framework/app"
-	"github.com/Nigel2392/jsext/framework/components/forms"
-	"github.com/Nigel2392/jsext/framework/components/misc"
-	"github.com/Nigel2392/jsext/framework/elements"
-	"github.com/Nigel2392/jsext/framework/graphs"
-	"github.com/Nigel2392/jsext/framework/graphs/options"
-	"github.com/Nigel2392/jsext/framework/router/vars"
+	"github.com/Nigel2392/jsext/elements"
 )
 
 func Index(a *app.Application, v vars.Vars, u *url.URL) {

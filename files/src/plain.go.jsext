@@ -7,10 +7,11 @@ import (
 	"net/url"
 	"os"
 
-	"github.com/Nigel2392/jsext/framework/app"
-	"github.com/Nigel2392/jsext/framework/components"
-	"github.com/Nigel2392/jsext/framework/components/menus"
-	"github.com/Nigel2392/jsext/framework/router"
+	"github.com/Nigel2392/jsext-framework/app"
+	"github.com/Nigel2392/jsext-framework/components"
+	"github.com/Nigel2392/jsext-framework/components/menus"
+	"github.com/Nigel2392/jsext-framework/router/vars"
+	"github.com/Nigel2392/jsext/elements"
 )
 
 var URLs = []components.URL{
@@ -18,15 +19,25 @@ var URLs = []components.URL{
 }
 
 var Application = app.App("") // Leave empty to append to body!
+var Menu = menus.NewMenuOptions(menus.Left)
 
 func main() {
-	Application.SetNavbar(menus.MenuCurtainDrop(URLs, 250, "#333333", "white"))
+	Menu.CSSMap[menus.ButtonWidth] = "300px"
+	Menu.URLs.FromElements(true,
+		elements.A("/", "Index"),
+	)
+	// Set a menu.
+	var menuElem = menus.Curtains(Menu)
+
+	// Set the navbar.
+	Application.SetNavbar(menuElem)
+
 	Application.Register("index", "/", Index)
 
 	os.Exit(Application.Run())
 }
 
-func Index(a *app.Application, v router.Vars, u *url.URL) {
+func Index(a *app.Application, v vars.Vars, u *url.URL) {
 	println("Index")
 
 	a.Render()

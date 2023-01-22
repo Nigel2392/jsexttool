@@ -6,10 +6,10 @@ package main
 import (
 	"os"
 
-	"github.com/Nigel2392/jsext/framework/app"
-	"github.com/Nigel2392/jsext/framework/components"
-	"github.com/Nigel2392/jsext/framework/components/menus"
-	"github.com/Nigel2392/jsext/framework/elements"
+	"github.com/Nigel2392/jsext-framework/app"
+	"github.com/Nigel2392/jsext-framework/components"
+	"github.com/Nigel2392/jsext-framework/components/menus"
+	"github.com/Nigel2392/jsext/elements"
 )
 
 // When the routes are loaded, the prefix "router:"
@@ -42,9 +42,9 @@ var Menu = menus.NewMenuOptions(menus.Left)
 func main() {
 	Menu.CSSMap[menus.ButtonWidth] = "300px"
 	Menu.URLs.FromElements(true,
-		elements.A("#home", "Home"),
-		elements.A("#about", "About"),
-		elements.A("#example", "Example"),
+		elements.A("/", "Home"),
+		elements.A("/about", "About"),
+		elements.A("/example", "Example"),
 	)
 	// Set a menu.
 	var menuElem = menus.Curtains(Menu)
